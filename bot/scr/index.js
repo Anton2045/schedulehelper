@@ -1,9 +1,12 @@
-TelegramBot = require('node-telegram-bot-api');
-GetTimetable = require('../parser/index')
+TelegramBot = require('node-telegram-bot-api')
+GetTimetable = require('../../parser')
+config = require('../config.json')
+Database = require('./Database')
 // Menu = require('./menu')
 
-const TOKEN = '1268228842:AAH_s3y4GkYNB_7fjiloJL7dGzoWI-1ppIY';
-const bot = new TelegramBot(TOKEN, { polling: true });
+
+const bot = new TelegramBot(config.token, { polling: true });
+const db = new Database(config.databaseURL);
 
 // bot.on('message', async msg=>{
 //     await bot.sendMessage(msg.chat.id,'здравствуйте, чтобы запустить введите "/start"')
@@ -18,12 +21,26 @@ bot.onText(/\/start/,async (msg)=>{
 
 })
 
+bot.onText(/\/start (.+)/,async (msg, [source, name_fk]) =>{
 
-bot.onText(/\/get_timetable/,(msg)=>{
-    const ChatId = msg.chat.id
-    bot.sendMessage(ChatId,'вы ввели пустое название')
+
 
 })
+
+
+
+// bot.onText(/\/get_timetable/,(msg)=>{
+//     const ChatId = msg.chat.id
+//     bot.sendMessage(ChatId,text, {parse_mode: 'HTML'})
+//         .then(()=>{
+//             console.log('done')
+//         })
+//         .catch((e)=>{
+//             console.log(e)
+//         })
+//
+// })
+
 
 bot.onText(/\/get_timetable (.+)/,async (msg, [source, name_fk])=>{
 
@@ -36,10 +53,7 @@ bot.onText(/\/get_timetable (.+)/,async (msg, [source, name_fk])=>{
     }else{
         for (cell of response_pars.timetable) {
             message = `
-            актуальность:${cell.create_date}\n
-            ${cell.date}
-            ${cell.name}
-            ${cell.information}`
+            актуальность:${cell.create_date}\n${cell.date}${cell.name}${cell.information}`
 
 
 
