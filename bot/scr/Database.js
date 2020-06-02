@@ -112,10 +112,29 @@ class Database {
 
             } catch (error) {
                 console.log(error)
+                return false
             }
+            return true
+        }
+        return false
+    }
+
+    async DeleteTelegramUser(userId){
+        const userExists = await this.userExists(userId)
+        const request = 'DELETE FROM t_users WHERE t_id = ($1);'
+        if(userExists){
+            try {
+                await this.pool.query(request, [userId])
+            } catch (error) {
+                console.log(error)
+                return false
+            }
+            return true
+        }
+
+        if(!userExists){
             return false
         }
-        return true
     }
 
 

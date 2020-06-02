@@ -8,18 +8,15 @@ Database = require('./Database')
 const bot = new TelegramBot(config.token, { polling: true });
 const db = new Database(config.databaseURL);
 const today = new Date()
-// bot.on('message', async msg=>{
-//     await bot.sendMessage(msg.chat.id,'здравствуйте, чтобы запустить введите "/start"')
-// })
 
 
 bot.onText(/\/start(?!.+)/,async (msg)=>{
-
     const ChatId = msg.chat.id;
 
     await bot.sendMessage(ChatId, 'здравствуйте, чтобы получить рассписание введите "/get_timetable название_факультета"');
 
-})
+}
+)
 
 
 bot.onText(/\/start (.+)/,async (msg, [source, GroupName]) =>{
@@ -28,12 +25,11 @@ bot.onText(/\/start (.+)/,async (msg, [source, GroupName]) =>{
     const UserId = msg.from.id
     const GroupId = await db.GetGroupID(GroupName)
     const UserExist = await db.userExists(UserId)
+    console.log(GroupName,GroupId)
 
 
     if(UserExist){
         await bot.sendMessage(ChatId, 'вы уже отслеживаете рассписание')
-
-
         return 0
     }
 
@@ -49,7 +45,11 @@ bot.onText(/\/start (.+)/,async (msg, [source, GroupName]) =>{
             await bot.sendMessage(ChatId, 'что-то не так')
             }
         }else{
-            await bot.sendMessage(ChatId, 'такой группы нет')
+            await bot.sendMessage(ChatId, 'такой группы нет у нас в баз данных, но мы проверим есть ли она ' +
+                'на самом деле и добавим ее примерно через 20 сек')
+            await Parser.ParseTimetable(GroupName)
+
+
         }
     }
 
@@ -64,7 +64,7 @@ bot.onText(/\/get_timetable(?!.+)/,async (msg)=>{
 
     if (!UserExist){
         await bot.sendMessage(ChatId,'вы не зарегистрировались!!\n ' +
-            'введите команду \'/start\' и введите через пробел название группы \n Пример: /strat бци181')
+            'введите команду \'/start\' и введите через пробел название группы \n Пример: /start бци181')
     }
     if(UserExist){
         const timetable_str = await db.GetTimetableForUser(UserId)
@@ -109,13 +109,27 @@ bot.onText(/\/get_timetable (.+)/,async (msg, [source, GroupName])=>{
     }
 })
 
-//функция обнавляет базу данных
-async ()=>{await Parser.UpdateDB()}
+
+bot.onText(/\/delete/,async (msg)=>{
+    const ChatId = msg.chat.id
+    const UserId = msg.from.id
+    console.log('sadad')
+    const result = await db.DeleteTelegramUser(UserId)
+    if(result == true){
+        bot.sendMessage(ChatId,'вы успешно отключились от рассылки ')
+    }else{
+        bot.sendMessage(ChatId,'вы и так не зарег')
+    }
+})
+
+// функция обнавляет базу данных
+const f = async ()=>{await Parser.UpdateDB()}
+f()
 setInterval(async() => {
     await Parser.UpdateDB()
 }, (4*3600*1000))
 
-//функция отправки сообщения в восемь утра
+// функция отправки сообщения в восемь утра
 function sendNotif() {
     const today = new Date()
     h = today.getHours()

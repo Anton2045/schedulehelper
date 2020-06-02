@@ -46,20 +46,15 @@ const UpdateDB = async ()=>{
             db.UpdateGroup(group.name_group, json_st)
         }
     }
-    const data = await db.GetTimetable('бци181')
-    let json =  JSON.parse(data)
-
-    console.log(json[1])
-
 }
-
-UpdateDB()
-    .then(()=>{
-    console.log('done')
-    })
-    .catch((e)=>{
-    console.log(e)
-})
+//
+// UpdateDB()
+//     .then(()=>{
+//     console.log('done')
+//     })
+//     .catch((e)=>{
+//     console.log(e)
+// })
 
 
 module.exports.ParseTimetable = ParseTimetable;
