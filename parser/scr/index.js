@@ -20,14 +20,13 @@ const ParseTimetable = async (GroupName) => {
 
     await page.goto(url)
     const result = await GetTimetablePage(page, GroupName)
-    console.log(result)
     if (result == 0){
-        return {result : 0, timetable : timetable};
+        return {result : 0, group_name:'', timetable : timetable};
     }
-    timetable = await GetTimetable(page)
+    response = await GetTimetable(page)
     await browser.close()
     fs.writeFileSync('../out.json', JSON.stringify(timetable, null, 2))
-    return {result : 1, timetable : timetable};
+    return {result: 1, group_name: response.group_name, timetable: response.timetable};
 
 
 
@@ -55,6 +54,15 @@ const UpdateDB = async ()=>{
 //     .catch((e)=>{
 //     console.log(e)
 // })
+
+// ParseTimetable('бц').then((res)=>{
+//     console.log(res)
+// })
+//     .catch((e)=>{
+//         console.log(e)
+//     })
+
+
 
 
 module.exports.ParseTimetable = ParseTimetable;

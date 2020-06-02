@@ -1,5 +1,5 @@
 TelegramBot = require('node-telegram-bot-api')
-Parser = require('../../parser/scr/index')
+Scraper = require('../../parser/scr/index')
 config = require('../config.json')
 Database = require('./Database')
 // Menu = require('./menu')
@@ -47,7 +47,7 @@ bot.onText(/\/start (.+)/,async (msg, [source, GroupName]) =>{
         }else{
             await bot.sendMessage(ChatId, 'такой группы нет у нас в баз данных, но мы проверим есть ли она ' +
                 'на самом деле и добавим ее примерно через 20 сек')
-            await Parser.ParseTimetable(GroupName)
+            await Scraper.ParseTimetable(GroupName)
 
 
         }
@@ -86,7 +86,7 @@ bot.onText(/\/get_timetable (.+)/,async (msg, [source, GroupName])=>{
     const ChatId = msg.chat.id;
 
     bot.sendMessage(ChatId, 'поиск...')
-    let response_pars = await Parser.ParseTimetable(GroupName)
+    let response_pars = await Scraper.ParseTimetable(GroupName)
     console.log(response_pars.timetable)
     if (response_pars.result == 0){
         await bot.sendMessage(ChatId,'такого факультета нет')
@@ -123,10 +123,10 @@ bot.onText(/\/delete/,async (msg)=>{
 })
 
 // функция обнавляет базу данных
-const f = async ()=>{await Parser.UpdateDB()}
+const f = async ()=>{await Scraper.UpdateDB()}
 f()
 setInterval(async() => {
-    await Parser.UpdateDB()
+    await Scraper.UpdateDB()
 }, (4*3600*1000))
 
 // функция отправки сообщения в восемь утра

@@ -9,7 +9,8 @@
 // console.log(result)
 
 function f() {
-    console.log('esfsf')
-    setTimeout(f,5000)
+    str = '                                                             **'
+    str = str.trim()
+    console.log(str)
 }
 f()

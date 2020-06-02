@@ -5,6 +5,7 @@ const puppeteer = require('puppeteer')
 module.exports = async (page)=> {
     return  await page.evaluate(()=>{
         let timetable = []
+        let group_name = ''
         //проверка,есть ли расписание
         if (document.querySelector('.mb-3.ng-star-inserted') != null){
             return timetable
@@ -38,7 +39,9 @@ module.exports = async (page)=> {
 
             timetable.push(cell_data)
         }
-        return timetable
+        group_name = document.querySelector('[title="Раскрыть"]').innerText
+        group_name = group_name.trim()
+        return {group_name: group_name, timetable}
     });
 
 }
