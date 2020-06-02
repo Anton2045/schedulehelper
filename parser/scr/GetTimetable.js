@@ -14,8 +14,7 @@ module.exports = async (page)=> {
         // вытаскиваем из каждой ячейки значения
         for (const element of elements) {
             const today = new Date()
-            // const dd = String(today.getDate()).padStart(2, '0')
-            const dd = '30'
+            const dd = String(today.getDate()).padStart(2, '0')
             const mm = String(today.getMonth() + 1).padStart(2, '0')
             const yyyy = today.getFullYear()
             const create_date = `${dd}.${mm}.${yyyy}`

@@ -1,8 +1,8 @@
 const puppeteer = require('puppeteer')
 
-module.exports = async (page,name_fk)=> {
+module.exports = async (page,GroupName)=> {
     await page.waitForSelector('input#autocomplete-group')
-    await page.type('input#autocomplete-group', name_fk)
+    await page.type('input#autocomplete-group', GroupName)
     await page.waitForSelector('#pr_id_1_list>.ng-star-inserted')
     const result = await page.evaluate(async () => {
         const text = document.querySelector('#pr_id_1_list>.ng-star-inserted').innerText

@@ -1,8 +1,9 @@
 config = require('../config.json')
-// Database = require('./Database')
+Database = require('./Database')
+const db = new Database(config.databaseURL);
 
-const main = async (a, b)=>{
-   return a+b;
+const main = async ()=>{
+   console.log(await db.GetGroupsName())
 }
 
 

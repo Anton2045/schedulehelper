@@ -1,5 +1,5 @@
 TelegramBot = require('node-telegram-bot-api')
-GetTimetable = require('../../parser')
+Parser = require('../../parser/scr/index')
 config = require('../config.json')
 Database = require('./Database')
 // Menu = require('./menu')
@@ -7,7 +7,7 @@ Database = require('./Database')
 
 const bot = new TelegramBot(config.token, { polling: true });
 const db = new Database(config.databaseURL);
-
+const today = new Date()
 // bot.on('message', async msg=>{
 //     await bot.sendMessage(msg.chat.id,'здравствуйте, чтобы запустить введите "/start"')
 // })
@@ -21,6 +21,7 @@ bot.onText(/\/start(?!.+)/,async (msg)=>{
 
 })
 
+
 bot.onText(/\/start (.+)/,async (msg, [source, GroupName]) =>{
 
     const ChatId = msg.chat.id
@@ -31,6 +32,8 @@ bot.onText(/\/start (.+)/,async (msg, [source, GroupName]) =>{
 
     if(UserExist){
         await bot.sendMessage(ChatId, 'вы уже отслеживаете рассписание')
+
+
         return 0
     }
 
@@ -53,7 +56,6 @@ bot.onText(/\/start (.+)/,async (msg, [source, GroupName]) =>{
 });
 
 
-
 bot.onText(/\/get_timetable(?!.+)/,async (msg)=>{
 
     const ChatId = msg.chat.id
@@ -62,11 +64,19 @@ bot.onText(/\/get_timetable(?!.+)/,async (msg)=>{
 
     if (!UserExist){
         await bot.sendMessage(ChatId,'вы не зарегистрировались!!\n ' +
-            'введите команду \'/start\' и введите через пробел название группы \n Пример: /strat БЦИ181')
+            'введите команду \'/start\' и введите через пробел название группы \n Пример: /strat бци181')
     }
     if(UserExist){
-        const time_table = await db.GetTimetableForUser(UserId)
-        await bot.sendMessage(ChatId, time_table)
+        const timetable_str = await db.GetTimetableForUser(UserId)
+        const timetable = JSON.parse(timetable_str)
+        let message = ``
+        for(cell of timetable){
+            message = message + `актуальность: ${cell.create_date}
+${cell.date}\n${cell.name}${cell.information}
+--------------------------------------------
+`
+        }
+        await bot.sendMessage(ChatId, message)
     }
 })
 
@@ -76,14 +86,14 @@ bot.onText(/\/get_timetable (.+)/,async (msg, [source, GroupName])=>{
     const ChatId = msg.chat.id;
 
     bot.sendMessage(ChatId, 'поиск...')
-    let response_pars = await GetTimetable(GroupName)
+    let response_pars = await Parser.ParseTimetable(GroupName)
     console.log(response_pars.timetable)
     if (response_pars.result == 0){
         await bot.sendMessage(ChatId,'такого факультета нет')
     }else{
         for (cell of response_pars.timetable) {
             message = `
-            актуальность:${cell.create_date}\n${cell.date}${cell.name}${cell.information}`
+            актуальность:${cell.create_date}\n${cell.date}\n${cell.name}${cell.information}`
 
 
 
@@ -98,4 +108,46 @@ bot.onText(/\/get_timetable (.+)/,async (msg, [source, GroupName])=>{
         }
     }
 })
+
+//функция обнавляет базу данных
+async ()=>{await Parser.UpdateDB()}
+setInterval(async() => {
+    await Parser.UpdateDB()
+}, (4*3600*1000))
+
+//функция отправки сообщения в восемь утра
+function sendNotif() {
+    const today = new Date()
+    h = today.getHours()
+    m = today.getMinutes()
+    now = h * 60 + m
+    time_for_send = 12 * 60 + 51
+    time_before_sending = time_for_send - now
+    if (time_before_sending <= 0){
+        time_before_sending = 24*60 + time_before_sending
+    }
+    console.log(time_before_sending)
+    setTimeout(async ()=>{
+        const UsersID = await db.GetUsersID()
+
+        for (user of UsersID) {
+            const timetable_str = await db.GetTimetableForUser(user.t_id)
+            const timetable = JSON.parse(timetable_str)
+            let message = ``
+            for(cell of timetable){
+                message = message + `актуальность: ${cell.create_date}
+            ${cell.date}\n${cell.name}${cell.information}
+            --------------------------------------------
+            `
+            }
+            await bot.sendMessage(user.t_id, message)
+        }
+
+        sendNotif()
+    }, (time_before_sending*60*1000))
+}
+sendNotif()
+
+
+
 

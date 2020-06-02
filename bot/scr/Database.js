@@ -44,6 +44,28 @@ class Database {
         return 0
     }
 
+    async GetGroupsName(){
+        const request = 'SELECT name_group FROM groups ;'
+        try{
+            const result = (await this.pool.query(request)).rows
+            return result
+        }catch (e) {
+            console.log(e)
+        }
+        return 0
+    }
+
+    async GetTimetable(GroupName){
+        const request = 'SELECT timetable_group FROM groups WHERE name_group = ($1);'
+        try{
+            const result = (await this.pool.query(request, [GroupName])).rows[0]
+            return result.timetable_group
+        }catch (e) {
+            console.log(e)
+        }
+        return 0
+    }
+
     async GetTimetableForUser(userID){
         const request = 'SELECT timetable_group FROM (SELECT t_id, timetable_group FROM t_users INNER JOIN groups  ON t_users.my_group = groups.id)  AS foo WHERE t_id = ($1);'
 
@@ -54,6 +76,19 @@ class Database {
             console.log(e)
         }
         return 0
+    }
+
+    async GetUsersID(){
+        const request = 'SELECT t_id FROM t_users;'
+
+        try{
+            const result = (await this.pool.query(request)).rows
+            return result
+        }catch (e) {
+            console.log(e)
+        }
+        let arr = []
+        return arr
     }
 
     async userExists(userId){
@@ -85,13 +120,12 @@ class Database {
 
 
 }
-//
+
 // const main = async ()=>{
 //     const db = new Database(config.databaseURL)
-//     // result = await db.AddTelegramUser(13,1)
-//     // await db.AddGroup('Anton', 'awadawd')
-//     // console.log(result)
-//     console.log(await db.UpdateGroup('vasya', '23:30'))
+//
+//     const result = await db.GetUsersID()
+//     console.log(result)
 // }
 //
 // main().then(()=>{
