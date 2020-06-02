@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer')
 
 module.exports.StartBrowser = async ()=>{
-    const browser = await puppeteer.launch({headless : false})
+    const browser = await puppeteer.launch({headless : true})
     return browser
 }
 

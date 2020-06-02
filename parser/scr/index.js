@@ -41,7 +41,6 @@ const UpdateDB = async ()=>{
         if (result.result) {
             const data = result.timetable
             let json_st = JSON.stringify(data)
-            console.log(typeof json_st, json_st)
             db.UpdateGroup(group.name_group, json_st)
         }
     }

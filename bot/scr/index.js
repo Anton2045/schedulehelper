@@ -45,9 +45,32 @@ bot.onText(/\/start (.+)/,async (msg, [source, GroupName]) =>{
             await bot.sendMessage(ChatId, 'что-то не так')
             }
         }else{
-            await bot.sendMessage(ChatId, 'такой группы нет у нас в баз данных, но мы проверим есть ли она ' +
+            await bot.sendMessage(ChatId, 'такой группы нет у нас в базе данных, но мы проверим есть ли она ' +
                 'на самом деле и добавим ее примерно через 20 сек')
-            await Scraper.ParseTimetable(GroupName)
+
+            response = await Scraper.ParseTimetable(GroupName)
+            if(response.result == 0){
+                bot.sendMessage(ChatId,'такой группы нет ')
+            }else{
+                let group_id = await db.GetGroupID(response.group_name)
+
+                if (group_id == 0){
+                    const data = response.timetable
+                    let json_st = JSON.stringify(data)
+                    await db.AddGroup(response.group_name, json_st)
+                    let group_id = await db.GetGroupID(response.group_name)
+                    await db.AddTelegramUser(UserId, group_id)
+                    message = `мы добавили в список вашу группу, теперь вы супешно подключены к группе ${response.group_name}`
+                    bot.sendMessage(ChatId, message)
+                }else{
+                    await db.AddTelegramUser(UserId, group_id)
+                    message = `вы супешно подключены к группе ${response.group_name}`
+                    bot.sendMessage(ChatId, message)
+                }
+
+            }
+
+
 
 
         }
