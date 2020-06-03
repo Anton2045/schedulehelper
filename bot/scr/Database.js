@@ -9,7 +9,7 @@ class Database {
     }
 
     async AddGroup(groupName, groupTimetable){
-        const request = 'INSERT INTO groups (name_group, timetable_group) values (($1),($2));'
+        const request = 'INSERT INTO groups (group_name,  schedule_group) values (($1),($2));'
 
         try{
             await this.pool.query(request, [groupName, groupTimetable])
@@ -19,7 +19,7 @@ class Database {
     }
 
     async UpdateGroup(groupName, groupTimetable){
-        const request = 'UPDATE groups set timetable_group = ($1) WHERE name_group = ($2);'
+        const request = 'UPDATE groups set  schedule_group = ($1) WHERE group_name = ($2);'
 
         try{
             await this.pool.query(request, [groupTimetable,groupName], (err, res)=>{
@@ -34,7 +34,7 @@ class Database {
     }
 
     async GetGroupID(GroupName){
-        const request = 'SELECT id FROM groups WHERE name_group = ($1);'
+        const request = 'SELECT id FROM groups WHERE group_name = ($1);'
         try{
             const result = (await this.pool.query(request, [GroupName])).rows[0]
             return result.id
@@ -45,7 +45,7 @@ class Database {
     }
 
     async GetGroupsName(){
-        const request = 'SELECT name_group FROM groups ;'
+        const request = 'SELECT group_name FROM groups ;'
         try{
             const result = (await this.pool.query(request)).rows
             return result
@@ -56,10 +56,10 @@ class Database {
     }
 
     async GetTimetable(GroupName){
-        const request = 'SELECT timetable_group FROM groups WHERE name_group = ($1);'
+        const request = 'SELECT schedule_group FROM groups WHERE group_name = ($1);'
         try{
             const result = (await this.pool.query(request, [GroupName])).rows[0]
-            return result.timetable_group
+            return result.schedule_group
         }catch (e) {
             console.log(e)
         }
@@ -67,11 +67,11 @@ class Database {
     }
 
     async GetTimetableForUser(userID){
-        const request = 'SELECT timetable_group FROM (SELECT t_id, timetable_group FROM t_users INNER JOIN groups  ON t_users.my_group = groups.id)  AS foo WHERE t_id = ($1);'
+        const request = 'SELECT schedule_group FROM (SELECT user_id, schedule_group FROM t_users INNER JOIN groups  ON t_users.user_group = groups.id)  AS foo WHERE user_id = ($1);'
 
         try{
             const result = (await this.pool.query(request, [userID])).rows[0]
-            return result.timetable_group
+            return result.schedule_group
         }catch (e) {
             console.log(e)
         }
@@ -79,7 +79,7 @@ class Database {
     }
 
     async GetUsersID(){
-        const request = 'SELECT t_id FROM t_users;'
+        const request = 'SELECT user_id FROM t_users;'
 
         try{
             const result = (await this.pool.query(request)).rows
@@ -92,7 +92,7 @@ class Database {
     }
 
     async userExists(userId){
-        const request = 'SELECT EXISTS (SELECT 1 FROM t_users WHERE t_id=($1));'
+        const request = 'SELECT EXISTS (SELECT 1 FROM t_users WHERE user_id=($1));'
         try {
             const result = (await this.pool.query(request, [userId])).rows[0]
             return result.exists
@@ -106,7 +106,7 @@ class Database {
         const userExists = await this.userExists(userId)
 
         if (!userExists) {
-            const request = 'INSERT INTO t_users (t_id, my_group) values (($1),($2));'
+            const request = 'INSERT INTO t_users (user_id, user_group) values (($1),($2));'
             try {
                 await this.pool.query(request, [userId, groupId])
 
@@ -121,7 +121,7 @@ class Database {
 
     async DeleteTelegramUser(userId){
         const userExists = await this.userExists(userId)
-        const request = 'DELETE FROM t_users WHERE t_id = ($1);'
+        const request = 'DELETE FROM t_users WHERE user_id = ($1);'
         if(userExists){
             try {
                 await this.pool.query(request, [userId])

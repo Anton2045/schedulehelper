@@ -87,11 +87,15 @@ bot.onText(/\/get_timetable(?!.+)/,async (msg)=>{
 
     if (!UserExist){
         await bot.sendMessage(ChatId,'вы не зарегистрировались!!\n ' +
-            'введите команду \'/start\' и введите через пробел название группы \n Пример: /start бци181')
+            'введите команду \'/start\' и введите через пробел название группы \n Пример: /start БЦИ181')
     }
     if(UserExist){
         const timetable_str = await db.GetTimetableForUser(UserId)
         const timetable = JSON.parse(timetable_str)
+        if (timetable.length == 0) {
+            bot.sendMessage(ChatId, 'нет рассписания на сегодня ')
+            return 0
+        }
         let message = ``
         for(cell of timetable){
             message = message + `актуальность: ${cell.create_date}
@@ -168,7 +172,7 @@ function sendNotif() {
         const UsersID = await db.GetUsersID()
 
         for (user of UsersID) {
-            const timetable_str = await db.GetTimetableForUser(user.t_id)
+            const timetable_str = await db.GetTimetableForUser(user.user_id)
             const timetable = JSON.parse(timetable_str)
             let message = ``
             for(cell of timetable){
@@ -177,7 +181,7 @@ function sendNotif() {
             --------------------------------------------
             `
             }
-            await bot.sendMessage(user.t_id, message)
+            await bot.sendMessage(user.user_id, message)
         }
 
         sendNotif()

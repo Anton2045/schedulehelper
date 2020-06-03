@@ -36,12 +36,15 @@ const ParseTimetable = async (GroupName) => {
 
 const UpdateDB = async ()=>{
     const Groups = await db.GetGroupsName()
+    if (Groups ==0) {
+        return 0
+    }
     for(group of Groups) {
-        const result = await ParseTimetable(group.name_group)
+        const result = await ParseTimetable(group.group_name)
         if (result.result) {
             const data = result.timetable
             let json_st = JSON.stringify(data)
-            db.UpdateGroup(group.name_group, json_st)
+            db.UpdateGroup(group.group_name, json_st)
         }
     }
 }

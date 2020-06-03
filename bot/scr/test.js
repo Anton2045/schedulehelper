@@ -3,7 +3,8 @@ Database = require('./Database')
 const db = new Database(config.databaseURL);
 
 const main = async ()=>{
-   console.log(await db.DeleteTelegramUser(313604880))
+   a = await db.GetTimetableForUser(313604880)
+    console.log(a)
 }
 
 
