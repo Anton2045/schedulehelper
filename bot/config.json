@@ -1,4 +1,4 @@
 {
-  "token": "1268228842:AAH_s3y4GkYNB_7fjiloJL7dGzoWI-1ppIY",
-  "databaseURL": "postgresql://anton:ghbdtn@localhost/schedulehelper"
+  "token": "1079417715:AAHP9w-ldr2zVVXRUFGTgTnhWbKhQfxl0r4",
+  "databaseURL": "postgresql://anton:ghbdtn@localhost:5432/schedulehelper"
 }
