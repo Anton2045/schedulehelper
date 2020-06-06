@@ -22,12 +22,7 @@ class Database {
         const request = 'UPDATE groups set  schedule_group = ($1) WHERE group_name = ($2);'
 
         try{
-            await this.pool.query(request, [groupTimetable,groupName], (err, res)=>{
-              if(err){
-                  console.log(err)
-              }
-              console.log(res)
-            })
+            await this.pool.query(request, [groupTimetable,groupName])
         }catch (e) {
             console.log(e)
         }
@@ -39,9 +34,8 @@ class Database {
             const result = (await this.pool.query(request, [GroupName])).rows[0]
             return result.id
         }catch (e) {
-            console.log(e)
+            return 0
         }
-        return 0
     }
 
     async GetGroupsName(){
@@ -61,9 +55,9 @@ class Database {
             const result = (await this.pool.query(request, [GroupName])).rows[0]
             return result.schedule_group
         }catch (e) {
-            console.log(e)
+            return 0
         }
-        return 0
+
     }
 
     async GetTimetableForUser(userID){
@@ -73,9 +67,8 @@ class Database {
             const result = (await this.pool.query(request, [userID])).rows[0]
             return result.schedule_group
         }catch (e) {
-            console.log(e)
+            return 0
         }
-        return 0
     }
 
     async GetUsersID(){
@@ -85,7 +78,6 @@ class Database {
             const result = (await this.pool.query(request)).rows
             return result
         }catch (e) {
-            console.log(e)
         }
         let arr = []
         return arr
@@ -97,7 +89,6 @@ class Database {
             const result = (await this.pool.query(request, [userId])).rows[0]
             return result.exists
         } catch (error) {
-            console.log(error)
             return error
         }
     }
