@@ -1,21 +1,30 @@
 const puppeteer = require('puppeteer')
 
 module.exports = async (page,GroupName)=> {
-    await page.waitForSelector('input#autocomplete-group')
-    await page.type('input#autocomplete-group', GroupName)
+    await page.waitForSelector('input#autocomplete-group')      //ждем загрузки
+    await page.type('input#autocomplete-group', GroupName)          //вбивем название группы
     await page.waitForSelector('#pr_id_1_list>.ng-star-inserted')
+    // выбираем первое название группы и переходим на старницу
     const result = await page.evaluate(async () => {
-        const text = document.querySelector('#pr_id_1_list>.ng-star-inserted').innerText
-        if (text == 'Не найдено') {
+        let group_name = document.querySelector('#pr_id_1_list>.ng-star-inserted').innerText
+        if (group_name == 'Не найдено') {
             return 0
         } else {
-            return 1
+            group_name = document.querySelector("#pr_id_1_list > li:nth-child(1) > div > div").innerText
+            return group_name
         }
     });
     if (result == 0) {
         return 0
     }
-    await page.click('#pr_id_1_list>.ng-star-inserted')
-    await page.waitFor(10000)
-    return 1
+    // ожидаем перехода и прогрузки
+    try {
+        await Promise.all([
+            page.waitForNavigation({timeout:6000}),
+            page.click('#pr_id_1_list>.ng-star-inserted')
+        ])
+    } catch(err){
+    }
+
+    return result
 }

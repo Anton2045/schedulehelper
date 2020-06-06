@@ -1,16 +1,14 @@
-// const today = new Date()
-// console.log(today.getHours(), today.getMinutes())
-// h = today.getHours()
-// m = today.getMinutes()
-// result = h*60 + m
-// tim = 19*60 + 50
-// console.log(tim - result)
-// setTimeout(()=>{console.log('hhahaha')},((tim - result)*60*1000))
-// console.log(result)
 
-function f() {
-    str = '                                                             **'
-    str = str.trim()
-    console.log(str)
+Database = require('../../bot/scr/Database');
+const db = new Database(config.databaseURL);
+
+const main = async ()=>{
+    result = await db.GetUsersID()
+    console.log(result[0].user_id)
 }
-f()
+main().then(
+    console.log('DONE')
+)
+.catch((e)=>{
+    console.log(e)
+})

@@ -1,1 +1,92 @@
-[]
+[
+  {
+    "create_date": "04.06.2020",
+    "href": " ",
+    "group": "БМЭ171",
+    "lecture": "проф. Шульц Владимир Леопольдович",
+    "auditorium": "online ",
+    "date": "04.06.2020 Чт\n10:30 - 11:50",
+    "name": "Обеспечение безопасности материальных ресурсов бизнеса и защита персонала (рус)\n Лекция",
+    "information": "\tonline (М на выезде (ONLINE))\n\t\nПоток:Б17ДЗ04а-Б \n\n\t\nпроф. Шульц Владимир Леопольдович"
+  },
+  {
+    "create_date": "04.06.2020",
+    "href": " ",
+    "group": "БМЭ171",
+    "lecture": "доц. Григорьев Анатолий Алексеевич",
+    "auditorium": "online ",
+    "date": "04.06.2020 Чт\n10:30 - 11:50",
+    "name": "ИТ-сервисы (рус)\n Практическое занятие",
+    "information": "\tonline (М на выезде (ONLINE))\n\t\nПоток:БВВ172-БИЯ \n\n\t\nдоц. Григорьев Анатолий Алексеевич"
+  },
+  {
+    "create_date": "04.06.2020",
+    "href": "\thttps://us02web.zoom.us/j/83577851759?pwd=YkF1N2lqMnF5WU9lemRac1NkcmZOQT09",
+    "group": "БМЭ171",
+    "lecture": "преп. Андреев Андрей Николаевич",
+    "auditorium": "online ",
+    "date": "04.06.2020 Чт\n10:30 - 11:50",
+    "name": "Визуальная социология как средство исследования современной культуры. Кино как социологический текст (рус)\n Семинар",
+    "information": "\tonline (М на выезде (ONLINE))\n\t\nПоток:Б17ДЗ01-Б1 \n\n\t\nпреп. Андреев Андрей Николаевич\n\n\thttps://us02web.zoom.us/j/83577851759?pwd=YkF1N2lqMnF5WU9lemRac1NkcmZOQT09"
+  },
+  {
+    "create_date": "04.06.2020",
+    "href": " ",
+    "group": "БМЭ171",
+    "lecture": "доц. Григорьев Анатолий Алексеевич",
+    "auditorium": "online ",
+    "date": "04.06.2020 Чт\n12:10 - 13:30",
+    "name": "ИТ-сервисы (рус)\n Практическое занятие",
+    "information": "\tonline (М на выезде (ONLINE))\n\t\nПоток:БВВ172-БИЯ \n\n\t\nдоц. Григорьев Анатолий Алексеевич"
+  },
+  {
+    "create_date": "04.06.2020",
+    "href": " ",
+    "group": "БМЭ171",
+    "lecture": "проф. Шульц Владимир Леопольдович",
+    "auditorium": "online ",
+    "date": "04.06.2020 Чт\n12:10 - 13:30",
+    "name": "Обеспечение безопасности материальных ресурсов бизнеса и защита персонала (рус)\n Лекция",
+    "information": "\tonline (М на выезде (ONLINE))\n\t\nПоток:Б17ДЗ04а-Б \n\n\t\nпроф. Шульц Владимир Леопольдович"
+  },
+  {
+    "create_date": "04.06.2020",
+    "href": "\thttps://us02web.zoom.us/j/83577851759?pwd=YkF1N2lqMnF5WU9lemRac1NkcmZOQT09",
+    "group": "БМЭ171",
+    "lecture": "преп. Андреев Андрей Николаевич",
+    "auditorium": "online ",
+    "date": "04.06.2020 Чт\n12:10 - 13:30",
+    "name": "Визуальная социология как средство исследования современной культуры. Кино как социологический текст (рус)\n Семинар",
+    "information": "\tonline (М на выезде (ONLINE))\n\t\nПоток:Б17ДЗ01-Б1 \n\n\t\nпреп. Андреев Андрей Николаевич\n\n\thttps://us02web.zoom.us/j/83577851759?pwd=YkF1N2lqMnF5WU9lemRac1NkcmZOQT09"
+  },
+  {
+    "create_date": "04.06.2020",
+    "href": "\t\nhttps://us02web.zoom.us/",
+    "group": "БМЭ171",
+    "lecture": "доц. Давлетшин Альберт Иршатович",
+    "auditorium": "online ",
+    "date": "04.06.2020 Чт\n13:40 - 15:00",
+    "name": "Историческая антропология цивилизаций Старого и Нового Света (рус)\n Лекция",
+    "information": "\tonline (М на выезде (ONLINE))\n\t\nПоток:17-Ю3-Б17Д \n\n\t\nдоц. Давлетшин Альберт Иршатович\n\n\t\nhttps://us02web.zoom.us/\n\n\thttps://us02web.zoom.us/j/83574524344?pwd=MSs1NWxjYVlBeXRteW41RG13cDYvZz09"
+  },
+  {
+    "create_date": "04.06.2020",
+    "href": "\t\nhttps://us02web.zoom.us/j/83574524344?pwd=MSs1NWxjYVlBeXRteW41RG13cDYvZz09",
+    "group": "БМЭ171",
+    "lecture": "доц. Давлетшин Альберт Иршатович",
+    "auditorium": "online ",
+    "date": "04.06.2020 Чт\n15:10 - 16:30",
+    "name": "Историческая антропология цивилизаций Старого и Нового Света (рус)\n Семинар",
+    "information": "\tonline (М на выезде (ONLINE))\n\t\nПоток:Б17ДЗ08-Б1 \n\n\t\nдоц. Давлетшин Альберт Иршатович\n\n\t\nhttps://us02web.zoom.us/j/83574524344?pwd=MSs1NWxjYVlBeXRteW41RG13cDYvZz09\n\n\thttps://us02web.zoom.us/j/83574524344?pwd=MSs1NWxjYVlBeXRteW41RG13cDYvZz09"
+  },
+  {
+    "create_date": "04.06.2020",
+    "href": " ",
+    "group": "БМЭ171",
+    "lecture": "преп. Волкова Ксения Владимировна",
+    "auditorium": "online ",
+    "date": "04.06.2020 Чт\n15:10 - 16:30",
+    "name": "Мозг и психика (рус)\n Семинар",
+    "information": "\tonline (М на выезде (ONLINE))\n\t\nПоток:БМЭ171-БМЭ \n\n\t\nпреп. Волкова Ксения Владимировна"
+  }
+]
