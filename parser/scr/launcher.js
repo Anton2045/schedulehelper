@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer')
+const puppeteer = require('puppeteer');
 
 module.exports.StartBrowser = async ()=>{
     const browser = await puppeteer.launch({headless : true})

@@ -1,13 +1,13 @@
-const launcher = require('./launcher.js')
-const puppeteer = require('puppeteer')
-const fs = require('fs')
-const GetTimetablePage = require('./GetTimetablePage')
-const GetTimetable = require('./GetTimetable')
-const config = require('../../bot/config.json')
-Database = require('../../bot/scr/Database')
+const launcher = require('./launcher.js');
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+const GetTimetablePage = require('./GetTimetablePage');
+const GetTimetable = require('./GetTimetable');
+const config = require('../../bot/config.json');
+Database = require('../../bot/scr/Database');
 
 const db = new Database(config.databaseURL);
-const url = "https://ruz.hse.ru/ruz/main"
+const url = "https://ruz.hse.ru/ruz/main";
 
 const ParseTimetable = async (GroupName) => {
     let timetable= []
@@ -26,7 +26,7 @@ const ParseTimetable = async (GroupName) => {
     }
     timetable = await GetTimetable(page, group_name)
     await browser.close()
-    // fs.writeFileSync('../out.json', JSON.stringify(response.timetable, null, 2))
+
     return {result: 1, group_name: group_name, timetable: timetable};
 
 
@@ -49,24 +49,7 @@ const UpdateDB = async ()=>{
         }
     }
 }
-//
-// UpdateDB()
-//     .then(()=>{
-//     console.log('done')
-//     })
-//     .catch((e)=>{
-//     console.log(e)
-// })
-
-// ParseTimetable('БМЭ17').then((res)=>{
-//     console.log(res)
-// })
-//     .catch((e)=>{
-//         console.log(e)
-//     })
 
 
-
-//
 module.exports.ParseTimetable = ParseTimetable;
 module.exports.UpdateDB = UpdateDB;

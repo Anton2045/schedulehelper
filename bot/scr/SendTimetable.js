@@ -1,7 +1,7 @@
 const appearance = require('../appearance/menu');
 const createMessageHTML = require('../templates/templates_msg');
 
-const SendTimetableForUser =async (bot, db, UserId=0, timetable= 'не передано')=> {
+const SendTimetableForUser = async (bot, db, UserId=0, timetable= 'не передано') => {
     if (timetable == 'не передано') {
         const timetable_str = await db.GetTimetableForUser(UserId);
         timetable = JSON.parse(timetable_str);
@@ -13,7 +13,7 @@ const SendTimetableForUser =async (bot, db, UserId=0, timetable= 'не пере�
         return 0
     }
     let message_html = `      <strong>Расписание на сегодня </strong>\n`
-    //отправка сообщений
+
     for(cell of timetable){
         message_html = message_html + createMessageHTML(cell)
     }
@@ -33,5 +33,7 @@ const SendTimetableForUser =async (bot, db, UserId=0, timetable= 'не пере�
             })
         }
     }
-}
+};
+
+
 module.exports = SendTimetableForUser

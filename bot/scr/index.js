@@ -5,7 +5,6 @@ Database = require('./Database');
 const createMessageHTML = require('../templates/templates_msg');
 const SendTimetableForUser = require('./SendTimetable');
 const appearance = require('../appearance/menu');
-// Menu = require('./menu')
 
 
 const bot = new TelegramBot(config.token, { polling: {
@@ -58,7 +57,7 @@ bot.onText(/\/start (.+)/,async (msg, [source, GroupName]) =>{
         return 0
     }
 
-    if (!UserExist){        //если пользователь не создан,
+    if (!UserExist){
         if (GroupId != 0) {
             const result = await db.AddTelegramUser(UserId, GroupId)
             if (result) {
@@ -111,7 +110,7 @@ bot.onText(/получить Рсписание(?!.+)/,async msg =>{
     if(UserExist){
         await SendTimetableForUser(bot, db, UserId)
     }
-})
+});
 
 
 bot.onText(/\/get_timetable (.+)/,async (msg, [source, GroupName])=> {
@@ -120,23 +119,22 @@ bot.onText(/\/get_timetable (.+)/,async (msg, [source, GroupName])=> {
     const timetable_str = await db.GetTimetable(GroupName);
 
     bot.sendMessage(ChatId, 'поиск...')
-    //проверка есть ли в базе данных данная группа
+
     if ( timetable_str != 0){
         const timetable = JSON.parse(timetable_str);
         await SendTimetableForUser(bot, db, ChatId, timetable );
         return 0
     }
-    // если нет в базе, то загружаем с сайта и добавляем
+
     let response_pars = await Scraper.ParseTimetable(GroupName)
     if(response_pars.result == 0 ){
         bot.sendMessage(ChatId, 'такой группы нет ')
     }
     await SendTimetableForUser(bot, db, ChatId, response_pars.timetable );
-    // если нет в базе добавляем
     if (await db.GetTimetable(response_pars.group_name) == 0) {
         db.AddGroup(response_pars.group_name, response_pars.timetable)
     }
-})
+});
 
 
 bot.onText(/\/delete/,async (msg)=>{
@@ -149,16 +147,16 @@ bot.onText(/\/delete/,async (msg)=>{
     }else{
         bot.sendMessage(ChatId,'вы и так не отслеживаете рассписание')
     }
-})
+});
 
-// функция обнавляет базу данных
-const f = async ()=>{await Scraper.UpdateDB()}
-f()
+
+const UpdateDataBase = async () => {await Scraper.UpdateDB()}
+UpdateDataBase();
 setInterval(async() => {
     await Scraper.UpdateDB()
-}, (4*3600*1000))
+}, (4*3600*1000));
 
-// функция отправки сообщения в 8:10
+
 function sendNotif() {
     const today = new Date();
 

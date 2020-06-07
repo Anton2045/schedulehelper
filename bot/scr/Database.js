@@ -1,5 +1,5 @@
-const {Pool} = require('pg')
-config = require('../config.json')
+const {Pool} = require('pg');
+config = require('../config.json');
 
 
 class Database {
@@ -31,7 +31,7 @@ class Database {
     async GetGroupID(GroupName){
         const request = 'SELECT id FROM groups WHERE group_name = ($1);'
         try{
-            const result = (await this.pool.query(request, [GroupName])).rows[0]
+            const result = (await this.pool.query(request, [GroupName])).rows[0];
             return result.id
         }catch (e) {
             return 0
@@ -116,7 +116,7 @@ class Database {
         if(userExists){
             try {
                 await this.pool.query(request, [userId])
-            } catch (error) {
+            } catch (error){
                 console.log(error)
                 return false
             }
@@ -131,14 +131,5 @@ class Database {
 
 }
 
-// const main = async ()=>{
-//     const db = new Database(config.databaseURL)
-//
-//     const result = await db.GetUsersID()
-//     console.log(result)
-// }
-//
-// main().then(()=>{
-//     console.log('done')
-// })
+
 module.exports = Database
